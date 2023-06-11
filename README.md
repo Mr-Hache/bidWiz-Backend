@@ -1,4 +1,3 @@
 BidWiz readme
-
-
-Nueva modificacion
+para el conflicto
+joaquingrd probandonueva
