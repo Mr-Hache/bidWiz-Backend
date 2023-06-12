@@ -1,4 +1,4 @@
-import { IsEmail, IsString, IsBoolean, IsNotEmpty, IsEnum, IsArray, ValidateNested } from 'class-validator';
+import { IsString, IsNotEmpty } from 'class-validator';
 
 export class UpdateUserPasswordDto{
     @IsString()
