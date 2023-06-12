@@ -25,6 +25,9 @@ export class Job {
 
   @Prop({ required: true, enum: JobStatus })
   status: JobStatus;
+
+  @Prop()
+  clientReview: number;
 }
 
 export const JobSchema = SchemaFactory.createForClass(Job);
