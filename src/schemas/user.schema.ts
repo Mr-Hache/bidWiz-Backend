@@ -20,7 +20,7 @@ export class User {
   @Prop({ unique: true, required: true })
   phoneNumber: string;
 
-  @Prop({ unique: true, required: true })
+  @Prop({ required: true })
   isWizard: boolean;
 
   @Prop({ type: [String], enum: Language, default: [] })
@@ -31,6 +31,9 @@ export class User {
 
   @Prop({ type: ExperienceSchema, default: {} })
   experience: Experience;
+
+  @Prop({ required: true, default: false })
+  isDisabled: boolean;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
