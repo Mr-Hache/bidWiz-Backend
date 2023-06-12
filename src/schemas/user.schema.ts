@@ -2,6 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import { Language } from './language.enum';
 import { Subject } from './subject.enum';
+import { Role } from './role.enum';
 import { Experience, ExperienceSchema } from './experience.schema';
 
 export type UserDocument = User & Document;
@@ -10,6 +11,12 @@ export type UserDocument = User & Document;
 export class User {
   @Prop({ unique: true, required: true })
   username: string;
+
+  @Prop({ required: true })
+  name: string;
+
+  @Prop({ required: true })
+  lastName: string;
 
   @Prop({ unique: true, required: true })
   password: string;
@@ -26,7 +33,7 @@ export class User {
   @Prop({ type: [String], enum: Language, default: [] })
   languages: Language[];
 
-  @Prop({ type: [String], enum: Language, default: [] })
+  @Prop({ type: [String], enum: Subject, default: [] })
   subjects: Subject[];
 
   @Prop({ type: ExperienceSchema, default: {} })
@@ -35,7 +42,7 @@ export class User {
   @Prop({ required: true, default: false })
   isDisabled: boolean;
 
-  @Prop({ default: 'user', enum: ['user', 'admin'] }) 
+  @Prop({ type: [String], enum: Role, default: ["user"] }) 
   role: string;
 }
 

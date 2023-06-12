@@ -1,13 +1,11 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 import { User } from './user.schema';
+import { JobStatus } from './jobStatus.enum';
 
 export type JobDocument = Job & Document;
 
-export enum JobStatus {
-  IN_PROGRESS = 'In Progress',
-  FINISHED = 'Finished'
-}
+
 
 @Schema()
 export class Job {
@@ -23,7 +21,7 @@ export class Job {
   @Prop({ required: true, type: Types.ObjectId, ref: 'User' })
   worker: User;
 
-  @Prop({ required: true, enum: JobStatus })
+  @Prop({ required: true, enum: JobStatus, default: ["In Progress"] })
   status: JobStatus;
 
   @Prop()
