@@ -20,6 +20,9 @@ export class User {
   @Prop({ unique: true, required: true })
   phoneNumber: string;
 
+  @Prop({ unique: true, required: true })
+  isWizard: boolean;
+
   @Prop({ type: [String], enum: Language, default: [] })
   languages: Language[];
 
