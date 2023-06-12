@@ -1,4 +1,4 @@
-import { IsEmail, IsString, IsBoolean, IsNotEmpty, IsEnum, IsArray, ValidateNested, IsOptional } from 'class-validator';
+import { IsEmail, IsString, IsBoolean, IsNotEmpty, IsEnum, IsArray, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
 import { Subject } from 'src/schemas/subject.enum';
 import { Language } from 'src/schemas/language.enum';
