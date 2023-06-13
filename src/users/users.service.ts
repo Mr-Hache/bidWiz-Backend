@@ -1,4 +1,4 @@
-import { Injectable, ConflictException, InternalServerErrorException } from '@nestjs/common';
+import { Injectable, ConflictException, InternalServerErrorException, BadRequestException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from 'src/schemas/user.schema';
 import { Model } from 'mongoose';
@@ -12,22 +12,25 @@ export class UsersService {
 
     
     async create(createUserDto: CreateUserDto): Promise<User> {
+        if (!createUserDto.isWizard && (createUserDto.languages || createUserDto.subjects || createUserDto.experiences)) {
+            throw new BadRequestException('You cannot pass wizard-related fields when isWizard is false');
+        }
         const createdUser = new this.userModel(createUserDto);
         try {
-          return await createdUser.save();
+            return await createdUser.save();
         } catch (error) {
-          if (error.code === 11000) {
-            let errorMessage = 'Conflict error: username, password or mail already exists.'
-            throw new ConflictException(errorMessage);
-          }
-          throw new InternalServerErrorException();
+            if (error.code === 11000) {
+                let errorMessage = 'Conflict error: username, password, mail or phoneNumber already exists.'
+                throw new ConflictException(errorMessage);
+            }
+                throw new InternalServerErrorException();
         }
-      }
-      
-  
+    }
     
     async findAll(): Promise<User[]> {
-        return this.userModel.find({ isDisabled: false, role: { $ne: 'admin' }, isWizard: true }).exec();
+        return this.userModel.find(
+            { isDisabled: false, role: { $ne: 'admin' }, isWizard: true },
+            {password: 0, phoneNumber: 0, email: 0}).exec();
     }
     
     async findOne(username: string): Promise<User> {
