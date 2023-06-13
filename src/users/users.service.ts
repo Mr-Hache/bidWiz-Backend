@@ -27,14 +27,20 @@ export class UsersService {
         }
     }
     
-    async findAll(): Promise<User[]> {
+    async findAllWizards(): Promise<User[]> {
         return this.userModel.find(
             { isDisabled: false, role: { $ne: 'admin' }, isWizard: true },
             {password: 0, phoneNumber: 0, email: 0}).exec();
     }
+
+    async findAllAdmin(): Promise<User[]> {
+        return this.userModel.find().exec();
+    }
     
     async findOne(username: string): Promise<User> {
-        return this.userModel.findOne({ username: username, isDisabled: false }).exec();
+        const user = await this.userModel.findOne({ username: username, isDisabled: false }).exec();
+        console.log(user);
+        return user;
     }
     
     async updatePassword(username: string, updateUserPasswordDto: UpdateUserPasswordDto): Promise<User> {

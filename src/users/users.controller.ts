@@ -16,10 +16,14 @@ export class UsersController {
   }
   
 
+  @Get('wizards')
+  async findAll(): Promise<User[]> {
+    return this.usersService.findAllWizards();
+  }
 
   @Get()
-  async findAll(): Promise<User[]> {
-    return this.usersService.findAll();
+  async findAllAdmin(): Promise<User[]> {
+    return this.usersService.findAllWizards();
   }
 
   @Get(':username')
