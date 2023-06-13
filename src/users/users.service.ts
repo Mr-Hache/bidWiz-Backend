@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, ConflictException, InternalServerErrorException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from 'src/schemas/user.schema';
 import { Model } from 'mongoose';
@@ -10,10 +10,21 @@ import { UpdateUserWizardDto } from 'src/dto/update-user-wizard.dto';
 export class UsersService {
     constructor (@InjectModel(User.name) private userModel: Model<User>){}
 
+    
     async create(createUserDto: CreateUserDto): Promise<User> {
         const createdUser = new this.userModel(createUserDto);
-        return createdUser.save();
-    }
+        try {
+          return await createdUser.save();
+        } catch (error) {
+          if (error.code === 11000) {
+            let errorMessage = 'Conflict error: username, password or mail already exists.'
+            throw new ConflictException(errorMessage);
+          }
+          throw new InternalServerErrorException();
+        }
+      }
+      
+  
     
     async findAll(): Promise<User[]> {
         return this.userModel.find({ isDisabled: false, role: { $ne: 'admin' }, isWizard: true }).exec();

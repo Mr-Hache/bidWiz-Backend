@@ -5,13 +5,13 @@ export type ExperienceDocument = Experience & Document;
 
 @Schema()
 export class Experience {
-  @Prop({ required: true })
+  @Prop({})
   title: string;
 
-  @Prop({ required: true })
+  @Prop({})
   origin: string;
 
-  @Prop({ required: true, default: 0 })
+  @Prop({ default: 0 })
   expJobs: number;
 }
 

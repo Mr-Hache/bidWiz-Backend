@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Patch, Post, Delete } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, Delete, UsePipes, ValidationPipe } from '@nestjs/common';
 import { CreateUserDto } from 'src/dto/create-user.dto';
 import { UpdateUserPasswordDto } from 'src/dto/update-user-password.dto';
 import { UpdateUserWizardDto } from 'src/dto/update-user-wizard.dto';
@@ -9,10 +9,13 @@ import { UsersService } from './users.service';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  @UsePipes(new ValidationPipe({ groups: ['wizard'] }))
   @Post()
   async create(@Body() createUserDto: CreateUserDto): Promise<User> {
     return this.usersService.create(createUserDto);
   }
+  
+
 
   @Get()
   async findAll(): Promise<User[]> {
