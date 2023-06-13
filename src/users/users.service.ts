@@ -34,12 +34,11 @@ export class UsersService {
     }
 
     async findAllAdmin(): Promise<User[]> {
-        return this.userModel.find().exec();
+        return this.userModel.find({ isDisabled: false, role: { $ne: 'admin' }}).exec();
     }
     
     async findOne(username: string): Promise<User> {
         const user = await this.userModel.findOne({ username: username, isDisabled: false }).exec();
-        console.log(user);
         return user;
     }
     

@@ -23,12 +23,7 @@ export class UsersController {
 
   @Get()
   async findAllAdmin(): Promise<User[]> {
-    return this.usersService.findAllWizards();
-  }
-
-  @Get(':username')
-  async findOne(@Param('username') username: string): Promise<User> {
-    return this.usersService.findOne(username);
+    return this.usersService.findAllAdmin();
   }
 
   @Patch(':username/password')
@@ -50,5 +45,10 @@ export class UsersController {
   @Delete(':username')
   async disable(@Param('username') username: string): Promise<User> {
     return this.usersService.disable(username);
+  }
+
+  @Get(':username')
+  async findOne(@Param('username') username: string): Promise<User> {
+    return this.usersService.findOne(username);
   }
 }
