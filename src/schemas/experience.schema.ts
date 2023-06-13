@@ -5,14 +5,14 @@ export type ExperienceDocument = Experience & Document;
 
 @Schema()
 export class Experience {
-  @Prop({ required: true })
+  @Prop({})
   title: string;
 
-  @Prop({ required: true })
+  @Prop({})
   origin: string;
 
-  @Prop({ required: true })
-  expYears: number;
+  @Prop({ default: 0 })
+  expJobs: number;
 }
 
 export const ExperienceSchema = SchemaFactory.createForClass(Experience);

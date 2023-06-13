@@ -1,4 +1,4 @@
-import { IsEmail, IsString, IsBoolean, IsNotEmpty, IsEnum, IsArray, ValidateNested } from 'class-validator';
+import { IsEmail, IsString, IsBoolean, IsNotEmpty, IsEnum, IsArray, ValidateNested, ValidateIf, IsObject } from 'class-validator';
 import { Type } from 'class-transformer';
 import { Subject } from 'src/schemas/subject.enum';
 import { Language } from 'src/schemas/language.enum';
@@ -35,16 +35,17 @@ export class CreateUserDto{
 
     @IsArray()
     @IsEnum(Language, { each: true })
+    @ValidateIf(o => o.isWizard, { groups: ['wizard'] })
     languages: Language[];
 
     @IsArray()
     @IsEnum(Subject, { each: true })
+    @ValidateIf(o => o.isWizard, { groups: ['wizard'] })
     subjects: Subject[];
 
-    @IsArray()
+    @IsObject()
     @ValidateNested({ each: true })
     @Type(() => ExperienceDto)
+    @ValidateIf(o => o.isWizard, { groups: ['wizard'] })
     experiences: ExperienceDto[];
-
-
 }
