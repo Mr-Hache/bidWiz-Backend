@@ -11,5 +11,5 @@ export class ExperienceDto {
 
     @IsNotEmpty()
     @IsNumber()
-    expYears: number;
+    expJobs: number;
 }

@@ -11,8 +11,8 @@ export class Experience {
   @Prop({ required: true })
   origin: string;
 
-  @Prop({ required: true })
-  expYears: number;
+  @Prop({ required: true, default: 0 })
+  expJobs: number;
 }
 
 export const ExperienceSchema = SchemaFactory.createForClass(Experience);
