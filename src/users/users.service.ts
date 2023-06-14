@@ -61,11 +61,33 @@ export class UsersService {
     }
     
     async updateWizard(username: string, updateUserWizardDto: UpdateUserWizardDto): Promise<User> {
-        const user = await this.userModel.findOneAndUpdate({ username: username, isDisabled: false }, updateUserWizardDto).exec();
+        const user = await this.userModel.findOne({ username: username, isDisabled: false }).exec();
         if (!user) {
             throw new NotFoundException(`User with username ${username} not found`);
         }
-        return user;
+
+        if (!user.isWizard && updateUserWizardDto.isWizard === true) {
+            if (!updateUserWizardDto.languages || !updateUserWizardDto.subjects || !updateUserWizardDto.experiences || !updateUserWizardDto.image) {
+                throw new BadRequestException('You must provide languages, subjects, experiences, and image when changing isWizard to true');
+            }
+        }
+
+        if (user.isWizard) {
+            if (updateUserWizardDto.languages !== undefined && updateUserWizardDto.languages.length === 0) {
+                throw new BadRequestException('You cannot remove all languages');
+            }
+            if (updateUserWizardDto.subjects !== undefined && updateUserWizardDto.subjects.length === 0) {
+                throw new BadRequestException('You cannot remove all subjects');
+            }
+            if (updateUserWizardDto.experiences !== undefined && Object.keys(updateUserWizardDto.experiences).length === 0) {
+                throw new BadRequestException('You cannot remove all experiences');
+            }
+            if (updateUserWizardDto.image !== undefined && updateUserWizardDto.image === "") {
+                throw new BadRequestException('You cannot remove image');
+            }
+        }
+        const updatedUser = await this.userModel.findOneAndUpdate({ username: username, isDisabled: false }, updateUserWizardDto, {new: true}).exec();
+        return updatedUser;
     }
     
     async disable(username: string): Promise<User> {

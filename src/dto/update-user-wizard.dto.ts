@@ -1,4 +1,4 @@
-import { IsEmail, IsString, IsBoolean, IsNotEmpty, IsEnum, IsArray, ValidateNested, IsOptional } from 'class-validator';
+import { IsString, IsBoolean, IsEnum, IsArray, ValidateNested, IsOptional, IsObject } from 'class-validator';
 import { Type } from 'class-transformer';
 import { Subject } from 'src/schemas/subject.enum';
 import { Language } from 'src/schemas/language.enum';
@@ -19,9 +19,13 @@ export class UpdateUserWizardDto{
     @IsEnum(Subject, { each: true })
     subjects?: Subject[];
 
-    @IsArray()
+    @IsObject()
     @IsOptional()
     @ValidateNested({ each: true })
     @Type(() => ExperienceDto)
     experiences?: ExperienceDto[];
+
+    @IsString()
+    @IsOptional()
+    image?: string
 }
