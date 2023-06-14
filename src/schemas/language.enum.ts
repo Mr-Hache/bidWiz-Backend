@@ -1,5 +1,11 @@
 export enum Language {
-    ENGLISH = 'english',
-    SPANISH = 'spanish',
-    PORTUGUESE = 'portuguese',
+    ENGLISH = 'English',
+    SPANISH = 'Spanish',
+    PORTUGUESE = 'Portuguese',
+    GERMAN = 'German',
+    FRENCH = 'French',
+    CHINESE = 'Chinese',
+    JAPANESE = 'Japanese',
+    RUSSIAN = 'Russian',
+    ITALIAN = 'Italian'
 }

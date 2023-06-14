@@ -9,7 +9,9 @@ export type UserDocument = User & Document;
 
 @Schema()
 export class User {
-  @Prop({ unique: true, required: true })
+  @Prop({ unique: true, required: true,
+    match: [/^\S*$/, 'Username should not contain whitespace'],
+  })
   username: string;
 
   @Prop({ required: true })
@@ -18,13 +20,19 @@ export class User {
   @Prop({ required: true })
   lastName: string;
 
-  @Prop({ unique: true, required: true })
+  @Prop({ required: true,
+    match: [/^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*]).*$/, 'Password must contain at least one uppercase letter, one number, and one special character']
+  })
   password: string;
 
-  @Prop({ unique: true, required: true })
+  @Prop({ unique: true, required: true,
+    match: [/\S+@\S+\.\S+/, 'Email should be a valid email address']
+  })
   email: string;
 
-  @Prop({ unique: true, required: true })
+  @Prop({ unique: true, required: true,
+    match: [/^\+[1-9]\d{1,3}\s?\d{6,14}$/, 'Phone number must include country code and your number']
+  })
   phoneNumber: string;
 
   @Prop({ required: true })
@@ -39,7 +47,10 @@ export class User {
   @Prop({ type: ExperienceSchema, default: {} })
   experience: Experience;
 
-  @Prop({ required: true, default: false })
+  @Prop({ default: "" })
+  image: string;
+
+  @Prop({ default: false })
   isDisabled: boolean;
 
   @Prop({ type: [String], enum: Role, default: ["user"] }) 

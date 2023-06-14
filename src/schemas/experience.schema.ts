@@ -5,10 +5,10 @@ export type ExperienceDocument = Experience & Document;
 
 @Schema()
 export class Experience {
-  @Prop({})
+  @Prop({ })
   title: string;
 
-  @Prop({})
+  @Prop({ })
   origin: string;
 
   @Prop({ default: 0 })

@@ -21,7 +21,7 @@ export class CreateUserDto{
     @IsNotEmpty()
     password: string
 
-    @IsEmail()
+    @IsString()
     @IsNotEmpty()
     email: string
 
@@ -47,5 +47,9 @@ export class CreateUserDto{
     @ValidateNested({ each: true })
     @Type(() => ExperienceDto)
     @ValidateIf(o => o.isWizard, { groups: ['wizard'] })
-    experiences: ExperienceDto[];
+    experience: ExperienceDto;
+
+    @IsString()
+    @ValidateIf(o => o.isWizard, { groups: ['wizard'] })
+    image: string
 }
