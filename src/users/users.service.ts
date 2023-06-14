@@ -9,7 +9,6 @@ import { UpdateUserWizardDto } from 'src/dto/update-user-wizard.dto';
 @Injectable()
 export class UsersService {
     constructor (@InjectModel(User.name) private userModel: Model<User>){}
-
     
     async create(createUserDto: CreateUserDto): Promise<User> {
         if (!createUserDto.isWizard && (createUserDto.languages || createUserDto.subjects || createUserDto.experiences)) {
@@ -20,7 +19,7 @@ export class UsersService {
             return await createdUser.save();
         } catch (error) {
             if (error.code === 11000) {
-                let errorMessage = 'Conflict error: username, password, mail or phoneNumber already exists.'
+                let errorMessage = 'Conflict error: username, mail or phoneNumber already exists.'
                 throw new ConflictException(errorMessage);
             }
                 throw new InternalServerErrorException();

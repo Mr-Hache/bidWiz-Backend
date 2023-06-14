@@ -48,4 +48,8 @@ export class CreateUserDto{
     @Type(() => ExperienceDto)
     @ValidateIf(o => o.isWizard, { groups: ['wizard'] })
     experiences: ExperienceDto[];
+
+    @IsString()
+    @ValidateIf(o => o.isWizard, { groups: ['wizard'] })
+    image: string
 }

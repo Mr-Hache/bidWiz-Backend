@@ -18,7 +18,7 @@ export class User {
   @Prop({ required: true })
   lastName: string;
 
-  @Prop({ unique: true, required: true })
+  @Prop({ required: true })
   password: string;
 
   @Prop({ unique: true, required: true })
@@ -39,7 +39,10 @@ export class User {
   @Prop({ type: ExperienceSchema, default: {} })
   experience: Experience;
 
-  @Prop({ required: true, default: false })
+  @Prop({ default: "" })
+  image: string;
+
+  @Prop({ default: false })
   isDisabled: boolean;
 
   @Prop({ type: [String], enum: Role, default: ["user"] }) 
