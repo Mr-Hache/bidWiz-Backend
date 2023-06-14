@@ -1,4 +1,2 @@
-BidWiz readme
-para el conflicto
-joaquingrd probando conflicto
-Juan probando conflicto
+Para correr el backend utilizar el siguiente comando: 
+npm start run:dev
