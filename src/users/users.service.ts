@@ -27,6 +27,10 @@ export class UsersService {
                 let errorMessage = 'Conflict error: username, mail or phoneNumber already exists.'
                 throw new ConflictException(errorMessage);
             }
+            if (error.name === 'ValidationError') {
+                let errorMessage = 'Validation error: ' + error.message;
+                throw new BadRequestException(errorMessage);
+            }
                 throw new InternalServerErrorException();
         }
     }
@@ -61,7 +65,7 @@ export class UsersService {
         if(updateUserPasswordDto.newPassword === updateUserPasswordDto.pastPassword) {
             throw new BadRequestException(`New password cannot be the same as the old password`);
         }
-        const updatedUser = await this.userModel.findOneAndUpdate({ username: username, isDisabled: false }, { password: updateUserPasswordDto.newPassword }, {new: true}).exec();
+        const updatedUser = await this.userModel.findOneAndUpdate({ username: username, isDisabled: false }, { password: updateUserPasswordDto.newPassword }, {new: true});
         return updatedUser;
     }
     
@@ -85,7 +89,7 @@ export class UsersService {
                 throw new BadRequestException('You must provide experience title and origin when changing isWizard to true');
             }
         }
-        const updatedUser = await this.userModel.findOneAndUpdate({ username: username, isDisabled: false }, updateUserWizardDto, {new: true}).exec();
+        const updatedUser = await this.userModel.findOneAndUpdate({ username: username, isDisabled: false }, updateUserWizardDto, {new: true})
         return updatedUser;
     }
     
