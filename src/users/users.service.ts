@@ -1,4 +1,4 @@
-import { Injectable, ConflictException, InternalServerErrorException, BadRequestException, NotFoundException } from '@nestjs/common';
+import { Injectable, ConflictException, InternalServerErrorException, BadRequestException, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from 'src/schemas/user.schema';
 import { Model } from 'mongoose';
@@ -45,11 +45,19 @@ export class UsersService {
     }
     
     async updatePassword(username: string, updateUserPasswordDto: UpdateUserPasswordDto): Promise<User> {
-        const user = await this.userModel.findOneAndUpdate({ username: username, isDisabled: false }, { password: updateUserPasswordDto.newPassword }).exec();
+        const user = await this.userModel.findOne({ username: username, isDisabled: false }).exec();
         if (!user) {
             throw new NotFoundException(`User with username ${username} not found`);
         }
-        return user;
+        if(user.password !== updateUserPasswordDto.pastPassword) {
+            throw new UnauthorizedException(`Past password is not correct`);
+        }
+
+        if(updateUserPasswordDto.newPassword === updateUserPasswordDto.pastPassword) {
+            throw new BadRequestException(`New password cannot be the same as the old password`);
+        }
+        const updatedUser = await this.userModel.findOneAndUpdate({ username: username, isDisabled: false }, { password: updateUserPasswordDto.newPassword }, {new: true}).exec();
+        return updatedUser;
     }
     
     async updateWizard(username: string, updateUserWizardDto: UpdateUserWizardDto): Promise<User> {
