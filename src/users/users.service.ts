@@ -11,10 +11,15 @@ export class UsersService {
     constructor (@InjectModel(User.name) private userModel: Model<User>){}
     
     async create(createUserDto: CreateUserDto): Promise<User> {
-        if (!createUserDto.isWizard && (createUserDto.languages || createUserDto.subjects || createUserDto.experiences)) {
+        if (!createUserDto.isWizard && (createUserDto.languages || createUserDto.subjects || createUserDto.experience)) {
             throw new BadRequestException('You cannot pass wizard-related fields when isWizard is false');
         }
+
+        if (createUserDto.isWizard && (!createUserDto.experience || !createUserDto.experience.title || !createUserDto.experience.origin)) {
+            throw new BadRequestException('You must provide experience title and origin when isWizard is true');
+        }
         const createdUser = new this.userModel(createUserDto);
+        
         try {
             return await createdUser.save();
         } catch (error) {
@@ -67,23 +72,17 @@ export class UsersService {
         }
 
         if (!user.isWizard && updateUserWizardDto.isWizard === true) {
-            if (!updateUserWizardDto.languages || !updateUserWizardDto.subjects || !updateUserWizardDto.experiences || !updateUserWizardDto.image) {
+            if (!updateUserWizardDto.languages || !updateUserWizardDto.subjects || !updateUserWizardDto.experience || !updateUserWizardDto.image) {
                 throw new BadRequestException('You must provide languages, subjects, experiences, and image when changing isWizard to true');
             }
         }
 
-        if (user.isWizard) {
-            if (updateUserWizardDto.languages !== undefined && updateUserWizardDto.languages.length === 0) {
-                throw new BadRequestException('You cannot remove all languages');
+        if (!user.isWizard && updateUserWizardDto.isWizard === true) {
+            if (!updateUserWizardDto.languages || !updateUserWizardDto.subjects || !updateUserWizardDto.experience || !updateUserWizardDto.image) {
+                throw new BadRequestException('You must provide languages, subjects, experiences, and image when changing isWizard to true');
             }
-            if (updateUserWizardDto.subjects !== undefined && updateUserWizardDto.subjects.length === 0) {
-                throw new BadRequestException('You cannot remove all subjects');
-            }
-            if (updateUserWizardDto.experiences !== undefined && Object.keys(updateUserWizardDto.experiences).length === 0) {
-                throw new BadRequestException('You cannot remove all experiences');
-            }
-            if (updateUserWizardDto.image !== undefined && updateUserWizardDto.image === "") {
-                throw new BadRequestException('You cannot remove image');
+            if (!updateUserWizardDto.experience.title || !updateUserWizardDto.experience.origin) {
+                throw new BadRequestException('You must provide experience title and origin when changing isWizard to true');
             }
         }
         const updatedUser = await this.userModel.findOneAndUpdate({ username: username, isDisabled: false }, updateUserWizardDto, {new: true}).exec();

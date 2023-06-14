@@ -23,7 +23,7 @@ export class UpdateUserWizardDto{
     @IsOptional()
     @ValidateNested({ each: true })
     @Type(() => ExperienceDto)
-    experiences?: ExperienceDto[];
+    experience?: ExperienceDto;
 
     @IsString()
     @IsOptional()
