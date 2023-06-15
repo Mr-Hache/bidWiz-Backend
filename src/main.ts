@@ -12,7 +12,7 @@ async function bootstrap() {
     app.useGlobalPipes(new ValidationPipe())
 
     console.log('Starting server...');
-    await app.listen(3000);
+    await app.listen(3000, '0.0.0.0');
     console.log('Server started. Application is running on: http://localhost:3000');
   } catch (error) {
     console.error('Error while starting the application', error);
