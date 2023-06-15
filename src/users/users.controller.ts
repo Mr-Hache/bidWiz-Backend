@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Patch, Post, Delete, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, Delete, UsePipes, ValidationPipe, Query } from '@nestjs/common';
 import { CreateUserDto } from 'src/dto/create-user.dto';
 import { UpdateUserPasswordDto } from 'src/dto/update-user-password.dto';
 import { UpdateUserWizardDto } from 'src/dto/update-user-wizard.dto';
@@ -17,9 +17,13 @@ export class UsersController {
   
 
   @Get('wizards')
-  async findAll(): Promise<User[]> {
-    return this.usersService.findAllWizards();
-  }
+  async findAll(@Query('subjects') subjects: string[], @Query('languages') languages: string[], @Query('page') page:number, @Query('size') size:number ) : Promise<User[]> {
+    console.log(languages);
+    console.log(subjects);
+    console.log(page,size)
+    return this.usersService.findAllWizards(subjects, languages, page, size);
+}
+
 
   @Get()
   async findAllAdmin(): Promise<User[]> {
