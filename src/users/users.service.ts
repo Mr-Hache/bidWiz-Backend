@@ -35,11 +35,35 @@ export class UsersService {
         }
     }
     
-    async findAllWizards(): Promise<User[]> {
-        return this.userModel.find(
-            { isDisabled: false, role: { $ne: 'admin' }, isWizard: true },
-            {password: 0, phoneNumber: 0, email: 0}).exec();
-    }
+    async findAllWizards(subjects?: string[], languages?: string[], page = 1, size = 10): Promise<User[]> {
+        let query = {
+          isDisabled: false,
+          role: { $ne: 'admin' },
+          isWizard: true
+        };
+      
+        let andConditions = [];
+      
+        if (subjects) {
+          andConditions.push({ 'subjects': { $in: subjects } });
+        }
+      
+        if (languages) {
+          andConditions.push({ 'languages': { $in: languages } });
+        }
+      
+        if(andConditions.length > 0) {
+          query['$and'] = andConditions;
+        }
+     
+        return this.userModel.find(query, { password: 0, phoneNumber: 0, email: 0 })
+          .skip((page - 1) * size)
+          .limit(size)
+          .exec();
+      }
+      
+      
+      
 
     async findAllAdmin(): Promise<User[]> {
         return this.userModel.find({role: { $ne: 'admin' }}).exec();
