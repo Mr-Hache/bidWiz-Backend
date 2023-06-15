@@ -55,7 +55,7 @@ export class UsersService {
         if(andConditions.length > 0) {
           query['$and'] = andConditions;
         }
-      console.log(page,size)
+     
         return this.userModel.find(query, { password: 0, phoneNumber: 0, email: 0 })
           .skip((page - 1) * size)
           .limit(size)

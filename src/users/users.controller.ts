@@ -18,9 +18,7 @@ export class UsersController {
 
   @Get('wizards')
   async findAll(@Query('subjects') subjects: string[], @Query('languages') languages: string[], @Query('page') page:number, @Query('size') size:number ) : Promise<User[]> {
-    console.log(languages);
-    console.log(subjects);
-    console.log(page,size)
+
     return this.usersService.findAllWizards(subjects, languages, page, size);
 }
 
