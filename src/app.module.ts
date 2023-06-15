@@ -8,7 +8,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 
 
 @Module({
-  imports: [MongooseModule.forRoot('mongodb+srv://gerald:gerald@cluster0.vpqricn.mongodb.net/bidwiz?retryWrites=true&w=majority'), AdminModule, UsersModule, AuthModule, ReviewsModule, JobsModule],
+  imports: [MongooseModule.forRoot('mongodb+srv://gerald:gerald@cluster0.vpqricn.mongodb.net/?retryWrites=true&w=majority'), AdminModule, UsersModule, AuthModule, ReviewsModule, JobsModule],
   
 })
 export class AppModule {}
