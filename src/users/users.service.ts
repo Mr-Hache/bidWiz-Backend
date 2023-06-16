@@ -63,7 +63,31 @@ export class UsersService {
       }
       
       
-      
+    async countAllWizards(subjects?: string[], languages?: string[]): Promise<number> {
+        
+        let query = {
+            isDisabled: false,
+            role: { $ne: 'admin' },
+            isWizard: true
+          };
+        
+          let andConditions = [];
+        
+          if (subjects) {
+            andConditions.push({ 'subjects': { $in: subjects } });
+          }
+        
+          if (languages) {
+            andConditions.push({ 'languages': { $in: languages } });
+          }
+        
+          if(andConditions.length > 0) {
+            query['$and'] = andConditions;
+          }
+       
+          const count = await this.userModel.countDocuments(query).exec();
+          return count;
+    }  
 
     async findAllAdmin(): Promise<User[]> {
         return this.userModel.find({role: { $ne: 'admin' }}).exec();
