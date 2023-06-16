@@ -20,6 +20,12 @@ export class UsersController {
   async findAll(@Query('subjects') subjects: string[], @Query('languages') languages: string[], @Query('page') page:number, @Query('size') size:number ) : Promise<User[]> {
 
     return this.usersService.findAllWizards(subjects, languages, page, size);
+    
+}
+
+@Get('wizards/count')
+async countAll(@Query('subjects') subjects: string[], @Query('languages') languages: string[]): Promise<number> {
+  return this.usersService.countAllWizards(subjects, languages);
 }
 
 
