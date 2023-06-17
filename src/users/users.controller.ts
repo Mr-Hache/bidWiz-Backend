@@ -55,8 +55,8 @@ async countAll(@Query('subjects') subjects: string[], @Query('languages') langua
     return this.usersService.disable(username);
   }
 
-  @Get(':username')
+  @Get('/wizard/:username')
   async findOne(@Param('username') username: string): Promise<User> {
-    return this.usersService.findOne(username);
+    return this.usersService.findOneWizard(username);
   }
 }
