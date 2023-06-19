@@ -93,8 +93,9 @@ export class UsersService {
         return this.userModel.find({role: { $ne: 'admin' }}).exec();
     }
     
-    async findOne(username: string): Promise<User> {
-        const user = await this.userModel.findOne({ username: username, isDisabled: false }).exec();
+    async findOneWizard(username: string): Promise<User> {
+        const user = await this.userModel.findOne({ username: username, isDisabled: false, role: { $ne: 'admin' },
+        isWizard: true }, { password: 0, phoneNumber: 0, email: 0 }).exec();
         if (!user) {
             throw new NotFoundException(`User with username ${username} not found`);
         }
