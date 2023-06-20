@@ -1,6 +1,5 @@
 import { Body, Controller, Get, Param, Patch, Post, Delete, UsePipes, ValidationPipe, Query } from '@nestjs/common';
 import { CreateUserDto } from 'src/dto/create-user.dto';
-import { UpdateUserPasswordDto } from 'src/dto/update-user-password.dto';
 import { UpdateUserWizardDto } from 'src/dto/update-user-wizard.dto';
 import { User } from 'src/schemas/user.schema';
 import { UsersService } from './users.service';
@@ -34,13 +33,6 @@ async countAll(@Query('subjects') subjects: string[], @Query('languages') langua
     return this.usersService.findAllAdmin();
   }
 
-  @Patch(':username/password')
-  async updatePassword(
-    @Param('username') username: string,
-    @Body() updateUserPasswordDto: UpdateUserPasswordDto
-  ): Promise<User> {
-    return this.usersService.updatePassword(username, updateUserPasswordDto);
-  }
 
   @Patch(':username/wizard')
   async updateWizard(

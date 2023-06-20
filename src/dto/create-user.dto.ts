@@ -1,4 +1,4 @@
-import { IsEmail, IsString, IsBoolean, IsNotEmpty, IsEnum, IsArray, ValidateNested, ValidateIf, IsObject } from 'class-validator';
+import { IsString, IsBoolean, IsNotEmpty, IsEnum, IsArray, ValidateNested, ValidateIf, IsObject } from 'class-validator';
 import { Type } from 'class-transformer';
 import { Subject } from 'src/schemas/subject.enum';
 import { Language } from 'src/schemas/language.enum';
@@ -13,13 +13,6 @@ export class CreateUserDto{
     @IsNotEmpty()
     name: string
 
-    @IsString()
-    @IsNotEmpty()
-    lastName: string
-
-    @IsString()
-    @IsNotEmpty()
-    password: string
 
     @IsString()
     @IsNotEmpty()
