@@ -3,7 +3,6 @@ import { InjectModel } from '@nestjs/mongoose';
 import { User } from 'src/schemas/user.schema';
 import { Model } from 'mongoose';
 import { CreateUserDto } from 'src/dto/create-user.dto';
-import { UpdateUserPasswordDto } from 'src/dto/update-user-password.dto';
 import { UpdateUserWizardDto } from 'src/dto/update-user-wizard.dto';
 
 @Injectable()
@@ -56,7 +55,7 @@ export class UsersService {
           query['$and'] = andConditions;
         }
      
-        return this.userModel.find(query, { password: 0, phoneNumber: 0, email: 0 })
+        return this.userModel.find(query, {  phoneNumber: 0, email: 0 })
           .skip((page - 1) * size)
           .limit(size)
           .exec();
@@ -95,7 +94,7 @@ export class UsersService {
     
     async findOneWizard(username: string): Promise<User> {
         const user = await this.userModel.findOne({ username: username, isDisabled: false, role: { $ne: 'admin' },
-        isWizard: true }, { password: 0, phoneNumber: 0, email: 0 }).exec();
+        isWizard: true }, {  phoneNumber: 0, email: 0 }).exec();
         if (!user) {
             throw new NotFoundException(`User with username ${username} not found`);
         }
