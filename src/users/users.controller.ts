@@ -34,13 +34,6 @@ async countAll(@Query('subjects') subjects: string[], @Query('languages') langua
     return this.usersService.findAllAdmin();
   }
 
-  @Patch(':username/password')
-  async updatePassword(
-    @Param('username') username: string,
-    @Body() updateUserPasswordDto: UpdateUserPasswordDto
-  ): Promise<User> {
-    return this.usersService.updatePassword(username, updateUserPasswordDto);
-  }
 
   @Patch(':username/wizard')
   async updateWizard(

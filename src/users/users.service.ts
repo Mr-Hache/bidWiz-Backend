@@ -102,21 +102,7 @@ export class UsersService {
         return user;
     }
     
-    async updatePassword(username: string, updateUserPasswordDto: UpdateUserPasswordDto): Promise<User> {
-        const user = await this.userModel.findOne({ username: username, isDisabled: false }).exec();
-        if (!user) {
-            throw new NotFoundException(`User with username ${username} not found`);
-        }
-        if(user.password !== updateUserPasswordDto.pastPassword) {
-            throw new UnauthorizedException(`Past password is not correct`);
-        }
 
-        if(updateUserPasswordDto.newPassword === updateUserPasswordDto.pastPassword) {
-            throw new BadRequestException(`New password cannot be the same as the old password`);
-        }
-        const updatedUser = await this.userModel.findOneAndUpdate({ username: username, isDisabled: false }, { password: updateUserPasswordDto.newPassword }, {new: true});
-        return updatedUser;
-    }
     
     async updateWizard(username: string, updateUserWizardDto: UpdateUserWizardDto): Promise<User> {
         const user = await this.userModel.findOne({ username: username, isDisabled: false }).exec();
