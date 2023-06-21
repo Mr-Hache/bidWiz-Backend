@@ -7,12 +7,4 @@ export class UpdateJobWorkerDto{
     @IsEnum(JobStatus)
     status: JobStatus;
 
-    @IsNotEmpty()
-    @IsString()
-    jobId: string;
-
-    @IsNotEmpty()
-    @IsString()
-    workerId: string;
-
 }

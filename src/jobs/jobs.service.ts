@@ -5,6 +5,8 @@ import { CreateJobDto } from 'src/dto/create-job.dto';
 import { Job, JobDocument } from 'src/schemas/jobs.schema';
 import { User, UserDocument } from 'src/schemas/user.schema';
 import { UpdateJobWorkerDto } from 'src/dto/update-job-worker.dto';
+import { Types } from 'mongoose';
+import { UpdateJobReviewDto } from 'src/dto/update-job-client.dto';
 
 @Injectable()
 export class JobsService {
@@ -45,17 +47,43 @@ export class JobsService {
         workerId: string,
         updateJobWorkerDto: UpdateJobWorkerDto,
       ): Promise<Job> {
-    
+        const { status } = updateJobWorkerDto;
+      
         const job = await this.jobModel.findOneAndUpdate(
-          { _id: jobId, worker: workerId },
-          updateJobWorkerDto,
+          { _id: new Types.ObjectId(jobId), worker: new Types.ObjectId(workerId) },
+          { status },
           { new: true },
         );
-    
+      
         if (!job) {
           throw new Error('Job not found or worker is not assigned to the job');
         }
-    
+      
         return job;
       }
+
+      async updateJobReview(
+        jobId: string,
+        clientId: string,
+        updateJobReviewDto: UpdateJobReviewDto,
+      ): Promise<Job> {
+        const { rating } = updateJobReviewDto;
+      
+        const job = await this.jobModel.findOneAndUpdate(
+            { _id: new Types.ObjectId(jobId), client: new Types.ObjectId(clientId) },
+            { rating },
+            { new: true },
+          );
+        
+          if (!job) {
+            throw new Error('Job not found or worker is not assigned to the job');
+          }
+        
+          return job;
+        }
+      
+      
+      
+      
+      
 }
