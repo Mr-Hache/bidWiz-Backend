@@ -27,10 +27,10 @@ export class Job {
   worker: User;
 
   @Prop({required: true, enum: Language})
-  jobLanguage: Language
+  language: Language
 
   @Prop({required: true, enum: Subject})
-  jobSubject: Subject
+  subject: Subject
 
   @Prop({ required: true, enum: JobStatus, default: ["In Progress"] })
   status: JobStatus;
