@@ -1,8 +1,9 @@
-import { IsNotEmpty, IsEnum } from 'class-validator';
+import { IsNotEmpty, IsEnum, IsString } from 'class-validator';
 import { JobStatus } from 'src/schemas/jobStatus.enum';
 
-export class UpdateJobDto{
+export class UpdateJobWorkerDto{
     @IsNotEmpty()
     @IsEnum(JobStatus)
     status: JobStatus;
+
 }

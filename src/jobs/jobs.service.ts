@@ -4,6 +4,7 @@ import { Model } from 'mongoose';
 import { CreateJobDto } from 'src/dto/create-job.dto';
 import { Job, JobDocument } from 'src/schemas/jobs.schema';
 import { User, UserDocument } from 'src/schemas/user.schema';
+import { UpdateJobWorkerDto } from 'src/dto/update-job-worker.dto';
 
 @Injectable()
 export class JobsService {
@@ -38,4 +39,24 @@ export class JobsService {
 
         return job.save();
     }
+
+    async updateJobWorker(
+        jobId: string,
+        workerId: string,
+        updateJobWorkerDto: UpdateJobWorkerDto,
+      ): Promise<Job> {
+        const { status } = updateJobWorkerDto;
+    
+        const job = await this.jobModel.findOneAndUpdate(
+          { _id: jobId, worker: workerId },
+          { status },
+          { new: true },
+        );
+    
+        if (!job) {
+          throw new Error('Job not found or worker is not assigned to the job');
+        }
+    
+        return job;
+      }
 }
