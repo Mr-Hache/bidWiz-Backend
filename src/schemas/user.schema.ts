@@ -17,11 +17,8 @@ export class User {
   @Prop({ required: true })
   name: string;
 
-
-  @Prop({ required: true,
-    match: [/^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*]).*$/, 'Password must contain at least one uppercase letter, one number, and one special character']
-  })
-
+  @Prop({ required: true })
+  uidFireBase: string 
 
   @Prop({ unique: true, required: true,
     match: [/\S+@\S+\.\S+/, 'Email should be a valid email address']

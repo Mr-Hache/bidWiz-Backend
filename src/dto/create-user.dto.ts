@@ -13,6 +13,9 @@ export class CreateUserDto{
     @IsNotEmpty()
     name: string
 
+    @IsString()
+    @IsNotEmpty()
+    uidFireBase: string
 
     @IsString()
     @IsNotEmpty()
