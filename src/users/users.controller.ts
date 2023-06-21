@@ -54,6 +54,6 @@ async countAll(@Query('subjects') subjects: string[], @Query('languages') langua
 
   @Get('/user/:uidFireBase')
   async findOneUid(@Param('uidFireBase') uidFireBase: string): Promise<User> {
-    return this.usersService.findOneWizard(uidFireBase);
+    return this.usersService.findOneUserUid(uidFireBase);
   }
 }
