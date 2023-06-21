@@ -3,7 +3,7 @@ import { AdminModule } from './admin/admin.module';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { ReviewsModule } from './reviews/reviews.module';
-import { JobsModule } from './jobs/jobs.module';
+//import { JobsModule } from './jobs/jobs.module';
 import { MongooseModule } from '@nestjs/mongoose';
 
 
