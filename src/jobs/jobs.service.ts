@@ -10,20 +10,32 @@ export class JobsService {
     constructor(
         @InjectModel(Job.name) private jobModel: Model<JobDocument>,
         @InjectModel(User.name) private userModel: Model<UserDocument>,
-      ) {}
+    ) {}
     
-      async createJob(createJobDto: CreateJobDto): Promise<Job> {
-        const { clientId, workerId, ...jobData } = createJobDto;
-    
-        const client = await this.userModel.findById(clientId).exec();
+    async createJob(createJobDto: CreateJobDto): Promise<Job> {
+        const { clientId, workerId, subject, language, ...jobData } = createJobDto;
+
         const worker = await this.userModel.findById(workerId).exec();
-    
+        if (!worker) {
+        throw new Error('Worker not found');
+        }
+
+        if (!worker.subjects.includes(subject)) {
+        throw new Error('Worker does not have the specified subject');
+        }
+
+        if (!worker.languages.includes(language)) {
+        throw new Error('Worker does not have the specified language');
+        }
+
         const job = new this.jobModel({
-          ...jobData,
-          client,
-          worker,
+        ...jobData,
+        client: clientId,
+        worker: workerId,
+        subject,
+        language,
         });
-    
+
         return job.save();
-      }
+    }
 }
