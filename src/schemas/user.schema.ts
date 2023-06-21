@@ -9,10 +9,6 @@ export type UserDocument = User & Document;
 
 @Schema()
 export class User {
-  @Prop({ unique: true, required: true,
-    match: [/^\S*$/, 'Username should not contain whitespace'],
-  })
-  username: string;
 
   @Prop({ required: true })
   name: string;
@@ -24,11 +20,6 @@ export class User {
     match: [/\S+@\S+\.\S+/, 'Email should be a valid email address']
   })
   email: string;
-
-  @Prop({ unique: true, required: true,
-    match: [/^\+[1-9]\d{1,3}\s?\d{6,14}$/, 'Phone number must include country code and your number']
-  })
-  phoneNumber: string;
 
   @Prop({ required: true })
   isWizard: boolean;

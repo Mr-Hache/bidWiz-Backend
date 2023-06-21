@@ -23,7 +23,7 @@ export class UsersService {
             return await createdUser.save();
         } catch (error) {
             if (error.code === 11000) {
-                let errorMessage = 'Conflict error: username, mail or phoneNumber already exists.'
+                let errorMessage = 'Conflict error: mail already exists.'
                 throw new ConflictException(errorMessage);
             }
             if (error.name === 'ValidationError') {
@@ -55,7 +55,7 @@ export class UsersService {
           query['$and'] = andConditions;
         }
      
-        return this.userModel.find(query, {  phoneNumber: 0, email: 0 })
+        return this.userModel.find(query, {  email: 0 })
           .skip((page - 1) * size)
           .limit(size)
           .exec();
@@ -92,21 +92,21 @@ export class UsersService {
         return this.userModel.find({role: { $ne: 'admin' }}).exec();
     }
     
-    async findOneWizard(username: string): Promise<User> {
-        const user = await this.userModel.findOne({ username: username, isDisabled: false, role: { $ne: 'admin' },
-        isWizard: true }, {  phoneNumber: 0, email: 0 }).exec();
+    async findOneWizard(name: string): Promise<User> {
+        const user = await this.userModel.findOne({ name: name, isDisabled: false, role: { $ne: 'admin' },
+        isWizard: true }, { email: 0 }).exec();
         if (!user) {
-            throw new NotFoundException(`User with username ${username} not found`);
+            throw new NotFoundException(`User with name ${name} not found`);
         }
         return user;
     }
     
 
     
-    async updateWizard(username: string, updateUserWizardDto: UpdateUserWizardDto): Promise<User> {
-        const user = await this.userModel.findOne({ username: username, isDisabled: false }).exec();
+    async updateWizard(name: string, updateUserWizardDto: UpdateUserWizardDto): Promise<User> {
+        const user = await this.userModel.findOne({ name: name, isDisabled: false }).exec();
         if (!user) {
-            throw new NotFoundException(`User with username ${username} not found`);
+            throw new NotFoundException(`User with name ${name} not found`);
         }
 
         if (!user.isWizard && updateUserWizardDto.isWizard === true) {
@@ -123,14 +123,14 @@ export class UsersService {
                 throw new BadRequestException('You must provide experience title and origin when changing isWizard to true');
             }
         }
-        const updatedUser = await this.userModel.findOneAndUpdate({ username: username, isDisabled: false }, updateUserWizardDto, {new: true})
+        const updatedUser = await this.userModel.findOneAndUpdate({ name: name, isDisabled: false }, updateUserWizardDto, {new: true})
         return updatedUser;
     }
     
-    async disable(username: string): Promise<User> {
-        const user = await this.userModel.findOneAndUpdate({ username: username }, { isDisabled: true }).exec();
+    async disable(name: string): Promise<User> {
+        const user = await this.userModel.findOneAndUpdate({ name: name }, { isDisabled: true }).exec();
         if (!user) {
-            throw new NotFoundException(`User with username ${username} not found`);
+            throw new NotFoundException(`User with name ${name} not found`);
         }
         return user;
     }
