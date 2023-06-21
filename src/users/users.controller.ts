@@ -34,21 +34,21 @@ async countAll(@Query('subjects') subjects: string[], @Query('languages') langua
   }
 
 
-  @Patch(':username/wizard')
+  @Patch(':name/wizard')
   async updateWizard(
-    @Param('username') username: string,
+    @Param('name') name: string,
     @Body() updateUserWizardDto: UpdateUserWizardDto
   ): Promise<User> {
-    return this.usersService.updateWizard(username, updateUserWizardDto);
+    return this.usersService.updateWizard(name, updateUserWizardDto);
   }
 
-  @Delete(':username')
-  async disable(@Param('username') username: string): Promise<User> {
-    return this.usersService.disable(username);
+  @Delete(':name')
+  async disable(@Param('name') name: string): Promise<User> {
+    return this.usersService.disable(name);
   }
 
-  @Get('/wizard/:username')
-  async findOne(@Param('username') username: string): Promise<User> {
-    return this.usersService.findOneWizard(username);
+  @Get('/wizard/:name')
+  async findOne(@Param('name') name: string): Promise<User> {
+    return this.usersService.findOneWizard(name);
   }
 }

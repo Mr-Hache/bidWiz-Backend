@@ -5,9 +5,6 @@ import { Language } from 'src/schemas/language.enum';
 import { ExperienceDto } from './experience.dto';
 
 export class CreateUserDto{
-    @IsString()
-    @IsNotEmpty()
-    username: string
 
     @IsString()
     @IsNotEmpty()
@@ -20,10 +17,6 @@ export class CreateUserDto{
     @IsString()
     @IsNotEmpty()
     email: string
-
-    @IsString()
-    @IsNotEmpty()
-    phoneNumber: string
 
     @IsBoolean()
     @IsNotEmpty()
