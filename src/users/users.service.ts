@@ -26,10 +26,6 @@ export class UsersService {
                 let errorMessage = 'Conflict error: mail already exists.'
                 throw new ConflictException(errorMessage);
             }
-            if (error.name === 'ValidationError') {
-                let errorMessage = 'Validation error: ' + error.message;
-                throw new BadRequestException(errorMessage);
-            }
                 throw new InternalServerErrorException();
         }
     }
@@ -92,21 +88,21 @@ export class UsersService {
         return this.userModel.find({role: { $ne: 'admin' }}).exec();
     }
     
-    async findOneWizard(name: string): Promise<User> {
-        const user = await this.userModel.findOne({ name: name, isDisabled: false, role: { $ne: 'admin' },
+    async findOneWizard(_id: string): Promise<User> {
+        const user = await this.userModel.findOne({ _id: _id, isDisabled: false, role: { $ne: 'admin' },
         isWizard: true }, { email: 0 }).exec();
         if (!user) {
-            throw new NotFoundException(`User with name ${name} not found`);
+            throw new NotFoundException(`User with id ${_id} not found`);
         }
         return user;
     }
     
 
     
-    async updateWizard(name: string, updateUserWizardDto: UpdateUserWizardDto): Promise<User> {
-        const user = await this.userModel.findOne({ name: name, isDisabled: false }).exec();
+    async updateWizard(_id: string, updateUserWizardDto: UpdateUserWizardDto): Promise<User> {
+        const user = await this.userModel.findOne({ _id: _id, isDisabled: false }).exec();
         if (!user) {
-            throw new NotFoundException(`User with name ${name} not found`);
+            throw new NotFoundException(`User with id ${_id} not found`);
         }
 
         if (!user.isWizard && updateUserWizardDto.isWizard === true) {
@@ -123,14 +119,14 @@ export class UsersService {
                 throw new BadRequestException('You must provide experience title and origin when changing isWizard to true');
             }
         }
-        const updatedUser = await this.userModel.findOneAndUpdate({ name: name, isDisabled: false }, updateUserWizardDto, {new: true})
+        const updatedUser = await this.userModel.findOneAndUpdate({ _id: _id, isDisabled: false }, updateUserWizardDto, {new: true})
         return updatedUser;
     }
     
-    async disable(name: string): Promise<User> {
-        const user = await this.userModel.findOneAndUpdate({ name: name }, { isDisabled: true }).exec();
+    async disable(_id: string): Promise<User> {
+        const user = await this.userModel.findOneAndUpdate({ _id: _id }, { isDisabled: true }).exec();
         if (!user) {
-            throw new NotFoundException(`User with name ${name} not found`);
+            throw new NotFoundException(`User with id ${_id} not found`);
         }
         return user;
     }
