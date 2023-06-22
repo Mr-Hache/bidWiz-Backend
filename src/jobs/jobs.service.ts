@@ -7,6 +7,7 @@ import { User, UserDocument } from 'src/schemas/user.schema';
 import { UpdateJobWorkerDto } from 'src/dto/update-job-worker.dto';
 import { Types } from 'mongoose';
 import { UpdateJobReviewDto } from 'src/dto/update-job-client.dto';
+import { log } from 'console';
 
 @Injectable()
 export class JobsService {
@@ -79,6 +80,11 @@ export class JobsService {
             throw new Error('Job not found or worker is not assigned to the job');
           }
         
+          const worker = await this.userModel.findById(job.worker).exec();
+          if (!worker) {
+          throw new Error('Worker not found');
+            }
+          await this.calculateAverageRating(worker._id.toString())
           return job;
         }
       
@@ -98,6 +104,33 @@ export class JobsService {
             return jobs;
         }
       
+        async calculateAverageRating(workerId: string) {
+          const jobs = await this.getJobsByWorker(workerId);
+          
+          if (jobs.length === 0) {
+              throw new Error('No jobs found for this worker');
+          }
+          console.log(`el worker id si llega ${workerId}`);
+          
+          let sumRatings = 0;
+          for (let job of jobs) {
+              if (job.rating) {
+                  sumRatings += job.rating;
+              }
+          }
+          console.log(`la sum rating es ${sumRatings}`);
+          const averageRating = sumRatings / jobs.length;
+          console.log(`el job leng ${jobs.length}`);
+          const user = await this.userModel.findById(workerId);
+          if (!user) {
+            throw new Error('User not found');
+          }
+
+          user.reviews = averageRating;
+          await user.save();
+      }
+      
+
       
       
 }

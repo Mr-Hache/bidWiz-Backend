@@ -36,6 +36,21 @@ export class User {
   @Prop({ default: "" })
   image: string;
 
+  @Prop({ default: 5})
+  reviews: number;
+
+  @Prop({ default: 0})
+  pricePerOne: number;
+
+  @Prop({ default: 0})
+  pricePerTwo: number;
+
+  @Prop({ default: 0})
+  pricePerThree: number;
+
+  @Prop({ default: ""})
+  aboutMe: string;
+
   @Prop({ default: false })
   isDisabled: boolean;
 

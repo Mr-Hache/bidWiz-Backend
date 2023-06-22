@@ -27,5 +27,6 @@ export class UpdateUserWizardDto{
 
     @IsString()
     @IsOptional()
+    @ValidateNested({ each: true })
     image?: string
 }
