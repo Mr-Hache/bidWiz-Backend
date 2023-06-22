@@ -38,6 +38,8 @@ export class Job {
   @Prop()
   rating: number;
 
+  @Prop()
+  result: string;
 }
 
 export const JobSchema = SchemaFactory.createForClass(Job);

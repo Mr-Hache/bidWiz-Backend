@@ -36,4 +36,7 @@ export class CreateJobDto {
     @IsEnum(Subject)
     subject: Subject;
 
+    @IsString()
+    result: String
+
 }
