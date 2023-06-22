@@ -7,7 +7,13 @@ import { User, UserDocument } from 'src/schemas/user.schema';
 import { UpdateJobWorkerDto } from 'src/dto/update-job-worker.dto';
 import { Types } from 'mongoose';
 import { UpdateJobReviewDto } from 'src/dto/update-job-client.dto';
-import { log } from 'console';
+
+const mercadopago = require("mercadopago");
+
+mercadopago.configure({
+  access_token: "TEST-6148664915482628-062215-38a98e32a8fa8c007c622d1a70f3ea0b-1404236451",
+});
+
 
 @Injectable()
 export class JobsService {
@@ -40,6 +46,25 @@ export class JobsService {
         language,
         });
 
+        let preference = {
+          items: [
+            {
+              title: job.subject, 
+              unit_price: job.price, 
+              quantity: 1, 
+              currency_id: "USD"
+            },
+          ],
+          back_urls: {
+            success: "http://localhost:3000",
+            failure: "http://localhost:3000",
+            pending: "",
+          },
+          auto_return: "approved",
+        };
+        
+        let preferenceResult = await mercadopago.preferences.create(preference);
+        job.result = preferenceResult;
         return job.save();
     }
 
