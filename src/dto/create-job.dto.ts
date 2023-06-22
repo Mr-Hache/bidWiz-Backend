@@ -17,6 +17,10 @@ export class CreateJobDto {
     price: number;
 
     @IsNotEmpty()
+    @IsNumber()
+    numClasses: number;
+
+    @IsNotEmpty()
     @IsString()
     clientId: Types.ObjectId; 
   
