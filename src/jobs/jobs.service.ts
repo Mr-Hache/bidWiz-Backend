@@ -50,7 +50,7 @@ export class JobsService {
         const { status } = updateJobWorkerDto;
       
         const job = await this.jobModel.findOneAndUpdate(
-          { _id: new Types.ObjectId(jobId), worker: new Types.ObjectId(workerId) },
+          { _id: (jobId), worker: (workerId), status: "In Progress" },
           { status },
           { new: true },
         );
@@ -70,7 +70,7 @@ export class JobsService {
         const { rating } = updateJobReviewDto;
       
         const job = await this.jobModel.findOneAndUpdate(
-            { _id: new Types.ObjectId(jobId), client: new Types.ObjectId(clientId) },
+            { _id: (jobId), client: (clientId), status: "Finished" },
             { rating },
             { new: true },
           );
@@ -82,7 +82,21 @@ export class JobsService {
           return job;
         }
       
-      
+        async getJobsByWorker(workerId: string): Promise<Job[]> {
+            const jobs = await this.jobModel.find({ worker: (workerId) }).exec();
+            if (!jobs) {
+              throw new Error('No jobs found for this worker');
+            }
+            return jobs;
+        }
+    
+        async getJobsByClient(clientId: string): Promise<Job[]> {
+            const jobs = await this.jobModel.find({ client: (clientId) }).exec();
+            if (!jobs) {
+              throw new Error('No jobs found for this client');
+            }
+            return jobs;
+        }
       
       
       

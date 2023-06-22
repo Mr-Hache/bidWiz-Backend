@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Patch, Param } from '@nestjs/common';
+import { Controller, Post, Body, Patch, Param, Get } from '@nestjs/common';
 import { CreateJobDto } from 'src/dto/create-job.dto';
 import { JobsService } from './jobs.service';
 import { UpdateJobWorkerDto } from 'src/dto/update-job-worker.dto';
@@ -15,14 +15,26 @@ export class JobsController {
   }
 
   @Patch('/finish/:jobId/:workerId')
-async updateJobWorker(@Param('jobId') jobId: string, @Param('workerId') workerId: string, @Body() updateJobWorkerDto: UpdateJobWorkerDto) {
-  const updatedJob = await this.jobsService.updateJobWorker(jobId, workerId, updateJobWorkerDto);
-  return updatedJob;
-}
+    async updateJobWorker(@Param('jobId') jobId: string, @Param('workerId') workerId: string, @Body() updateJobWorkerDto: UpdateJobWorkerDto) {
+    const updatedJob = await this.jobsService.updateJobWorker(jobId, workerId, updateJobWorkerDto);
+    return updatedJob;
+    }
 
-@Patch('/review/:jobId/:clientId')
-async updateJobReview(@Param('jobId') jobId: string, @Param('clientId') clientId: string, @Body() updateJobReviewDto: UpdateJobReviewDto) {
-  const updatedJob = await this.jobsService.updateJobReview(jobId, clientId, updateJobReviewDto);
-  return updatedJob;
-}
+    @Patch('/review/:jobId/:clientId')
+    async updateJobReview(@Param('jobId') jobId: string, @Param('clientId') clientId: string, @Body() updateJobReviewDto: UpdateJobReviewDto) {
+    const updatedJob = await this.jobsService.updateJobReview(jobId, clientId, updateJobReviewDto);
+    return updatedJob;
+    }
+
+    @Get('/worker/:workerId')
+    async getJobsByWorker(@Param('workerId') workerId: string) {
+        const jobs = await this.jobsService.getJobsByWorker(workerId);
+        return jobs;
+    }
+
+    @Get('/client/:clientId')
+    async getJobsByClient(@Param('clientId') clientId: string) {
+        const jobs = await this.jobsService.getJobsByClient(clientId);
+        return jobs;
+    }
 }
