@@ -36,7 +36,7 @@ export class Job {
   status: JobStatus;
 
   @Prop()
-  clientReview: number;
+  rating: number;
 
 }
 
