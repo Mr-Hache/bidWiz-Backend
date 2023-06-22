@@ -63,8 +63,18 @@ export class JobsService {
           auto_return: "approved",
         };
         
-        let preferenceResult = await mercadopago.preferences.create(preference);
-        job.result = preferenceResult;
+        
+        let preferenceId;
+
+        try {
+            const response = await mercadopago.preferences.create(preference);
+            preferenceId = response.body.id;
+        } catch (error) {
+            console.log(error);
+        }
+
+        job.result=preferenceId
+        
         return job.save();
     }
 
