@@ -110,7 +110,6 @@ export class JobsService {
           if (jobs.length === 0) {
               throw new Error('No jobs found for this worker');
           }
-          console.log(`el worker id si llega ${workerId}`);
           
           let sumRatings = 0;
           for (let job of jobs) {
@@ -118,15 +117,16 @@ export class JobsService {
                   sumRatings += job.rating;
               }
           }
-          console.log(`la sum rating es ${sumRatings}`);
+         
           const averageRating = sumRatings / jobs.length;
-          console.log(`el job leng ${jobs.length}`);
+          
           const user = await this.userModel.findById(workerId);
           if (!user) {
             throw new Error('User not found');
           }
 
           user.reviews = averageRating;
+          user.experience.expJobs += 1
           await user.save();
       }
       

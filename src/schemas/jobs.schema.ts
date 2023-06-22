@@ -17,9 +17,6 @@ export class Job {
   @Prop({ required: true })
   price: number;
 
-  @Prop({required: true})
-  numClasses: number
-
   @Prop({ required: true, type: Types.ObjectId, ref: 'User' })
   client: User;
 

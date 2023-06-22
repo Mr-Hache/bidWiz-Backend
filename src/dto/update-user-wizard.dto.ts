@@ -1,4 +1,4 @@
-import { IsString, IsBoolean, IsEnum, IsArray, ValidateNested, IsOptional, IsObject } from 'class-validator';
+import { IsString, IsBoolean, IsEnum, IsArray, ValidateNested, IsOptional, IsObject, IsNumber } from 'class-validator';
 import { Type } from 'class-transformer';
 import { Subject } from 'src/schemas/subject.enum';
 import { Language } from 'src/schemas/language.enum';
@@ -27,6 +27,21 @@ export class UpdateUserWizardDto{
 
     @IsString()
     @IsOptional()
-    @ValidateNested({ each: true })
     image?: string
+
+    @IsString()
+    @IsOptional()
+    aboutMe?: string
+
+    @IsNumber()
+    @IsOptional()
+    pricePerOne?: number
+
+    @IsNumber()
+    @IsOptional()
+    pricePerTwo?: number
+
+    @IsNumber()
+    @IsOptional()
+    pricePerThree?: number
 }
