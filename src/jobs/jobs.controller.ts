@@ -56,4 +56,16 @@ export class JobsController {
         return totals;
     }
 
+    @Get('/language-stats')
+    async getLanguageStats() {
+        const languageStats = await this.jobsService.getLanguageStats();
+        return languageStats;
+    }
+
+    @Get('/subject-stats')
+    async getSubjectStats() {
+        const subjectStats = await this.jobsService.getSubjectStats();
+        return subjectStats;
+    }
+
 }
