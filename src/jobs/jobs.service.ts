@@ -51,7 +51,7 @@ export class JobsService {
             {
               title: job.subject, 
               unit_price: job.price, 
-              quantity: 1, 
+              quantity: job.numClasses, 
               currency_id: "USD"
             },
           ],
@@ -63,7 +63,7 @@ export class JobsService {
           auto_return: "approved",
         };
         
-        // hola
+        
         let preferenceId;
 
         try {
