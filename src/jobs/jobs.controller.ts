@@ -50,4 +50,10 @@ export class JobsController {
         return topBuyers;
     }
 
+    @Get('/totals')
+    async getTotalSalesAndRevenue() {
+        const totals = await this.jobsService.getTotalSalesAndRevenue();
+        return totals;
+    }
+
 }
