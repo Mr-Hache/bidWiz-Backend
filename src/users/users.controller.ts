@@ -17,9 +17,7 @@ export class UsersController {
 
   @Get('wizards')
   async findAll(@Query('subjects') subjects: string[], @Query('languages') languages: string[], @Query('page') page:number, @Query('size') size:number ) : Promise<User[]> {
-
     return this.usersService.findAllWizards(subjects, languages, page, size);
-    
 }
 
 @Get('wizards/count')
@@ -61,4 +59,10 @@ async countAll(@Query('subjects') subjects: string[], @Query('languages') langua
   async findOneUid(@Param('uidFireBase') uidFireBase: string): Promise<User> {
     return this.usersService.findOneUserUid(uidFireBase);
   }
+
+  @Get('top-sellers')
+    async getTopSellers() {
+        const topSellers = await this.usersService.getTopSellers();
+        return topSellers;
+    }
 }
