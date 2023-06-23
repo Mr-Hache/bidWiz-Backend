@@ -143,5 +143,17 @@ export class UsersService {
         }
         return user;
     }
+
+    async getTopSellers() {
+        const topSellers = await this.userModel.aggregate([
+            { $match: { isWizard: true } },
+            { $sort: { "experience.expJobs": -1 } },
+            { $project: { name: 1, _id: 1, 'experience.expJobs': 1 } },
+            { $limit: 10 }
+        ]);
+    
+        return topSellers;
+    }
+    
     
 }
