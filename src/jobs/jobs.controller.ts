@@ -37,4 +37,17 @@ export class JobsController {
         const jobs = await this.jobsService.getJobsByClient(clientId);
         return jobs;
     }
+
+    @Get('top-earners')
+    async getTopEarners() {
+        const topEarners = await this.jobsService.getTopEarners();
+        return topEarners;
+    }
+
+    @Get('top-buyers')
+    async getTopBuyers() {
+        const topBuyers = await this.jobsService.getTopBuyers();
+        return topBuyers;
+    }
+
 }
