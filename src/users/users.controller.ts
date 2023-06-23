@@ -33,6 +33,11 @@ async countAll(@Query('subjects') subjects: string[], @Query('languages') langua
     return this.usersService.findAllAdmin();
   }
 
+  @Get()
+  async findAllEmails(): Promise<string[]> {
+    return this.usersService.findAllEmails();
+}
+
 
   @Patch(':_id/wizard')
   async updateWizard(
