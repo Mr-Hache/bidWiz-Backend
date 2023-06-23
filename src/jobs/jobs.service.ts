@@ -165,6 +165,45 @@ export class JobsService {
           await user.save();
       }
       
+      async getTopEarners() {
+        const topEarners = await this.jobModel.aggregate([
+          { $group: { _id: { $toObjectId: "$worker" }, totalEarned: { $sum: { $multiply: ["$price", "$numClasses"] } }  } },
+          {
+              $lookup: {
+                  from: 'users',
+                  localField: '_id',
+                  foreignField: '_id',
+                  as: 'user_info'
+              }
+          },
+          { $unwind: "$user_info" },
+          { $sort: { totalEarned: -1 } },
+          { $project: { totalEarned: 1, "user_info.name": 1 } },
+          { $limit: 10 }
+      ]);
+      return topEarners;
+    }
+
+    async getTopBuyers() {
+      const topBuyers = await this.jobModel.aggregate([
+          { $group: { _id: { $toObjectId: "$client" }, totalPaid: { $sum: { $multiply: ["$price", "$numClasses"] } }  } },
+          {
+              $lookup: {
+                  from: 'users',
+                  localField: '_id',
+                  foreignField: '_id',
+                  as: 'user_info'
+              }
+          },
+          { $unwind: "$user_info" },
+          { $sort: { totalPaid: -1 } },
+          { $project: { totalPaid: 1, "user_info.name": 1 } },
+          { $limit: 10 }
+      ]);
+      return topBuyers;
+  }
+  
+    
 
       
       
