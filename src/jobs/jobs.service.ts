@@ -202,7 +202,40 @@ export class JobsService {
       ]);
       return topBuyers;
   }
-  
+
+  async getTotalSalesAndRevenue() {
+    const totalSales = await this.userModel.aggregate([
+        { $match: { isWizard: true } },
+        { $group: { _id: null, totalSales: { $sum: "$experience.expJobs" } } }
+    ]);
+
+    const totalRevenue = await this.jobModel.aggregate([
+        { $group: { _id: null, totalRevenue: { $sum: { $multiply: ["$price", "$numClasses"] } } } }
+    ]);
+
+    return {
+        totalSales: totalSales[0] ? totalSales[0].totalSales : 0,
+        totalRevenue: totalRevenue[0] ? totalRevenue[0].totalRevenue : 0
+    };
+  }
+
+    async getLanguageStats() {
+      const languageStats = await this.jobModel.aggregate([
+          { $group: { _id: "$language", count: { $sum: 1 } } },
+          { $sort: { count: -1 } }
+      ]);
+
+      return languageStats;
+  }
+
+  async getSubjectStats() {
+      const subjectStats = await this.jobModel.aggregate([
+          { $group: { _id: "$subject", count: { $sum: 1 } } },
+          { $sort: { count: -1 } }
+      ]);
+
+      return subjectStats;
+  }
     
 
       
