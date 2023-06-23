@@ -33,7 +33,7 @@ async countAll(@Query('subjects') subjects: string[], @Query('languages') langua
     return this.usersService.findAllAdmin();
   }
 
-  @Get()
+  @Get("/emails")
   async findAllEmails(): Promise<string[]> {
     return this.usersService.findAllEmails();
 }
