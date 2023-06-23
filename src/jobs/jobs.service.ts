@@ -178,7 +178,7 @@ export class JobsService {
           },
           { $unwind: "$user_info" },
           { $sort: { totalEarned: -1 } },
-          { $project: { totalEarned: 1, "user_info.name": 1 } },
+          { $project: { totalEarned: 1, "user_info.name": 1, "user_info.image": 1 } },
           { $limit: 10 }
       ]);
       return topEarners;
@@ -197,7 +197,7 @@ export class JobsService {
           },
           { $unwind: "$user_info" },
           { $sort: { totalPaid: -1 } },
-          { $project: { totalPaid: 1, "user_info.name": 1 } },
+          { $project: { totalPaid: 1, "user_info.name": 1, "user_info.image": 1 } },
           { $limit: 10 }
       ]);
       return topBuyers;
