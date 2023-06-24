@@ -50,6 +50,11 @@ async countAll(@Query('subjects') subjects: string[], @Query('languages') langua
     return this.usersService.disable(_id);
   }
 
+  @Patch('able/:_id')
+  async able(@Param('_id') _id: string): Promise<User> {
+    return this.usersService.able(_id);
+  }
+
   @Get('/wizard/:_id')
   async findOne(@Param('_id') _id: string): Promise<User> {
     return this.usersService.findOneWizard(_id);

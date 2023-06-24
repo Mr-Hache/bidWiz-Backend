@@ -144,6 +144,14 @@ export class UsersService {
         return user;
     }
 
+    async able(_id: string): Promise<User> {
+        const user = await this.userModel.findOneAndUpdate({ _id: _id }, { isDisabled: false }).exec();
+        if (!user) {
+            throw new NotFoundException(`User with id ${_id} not found`);
+        }
+        return user;
+    }
+
     async getTopSellers() {
         const topSellers = await this.userModel.aggregate([
             { $match: { isWizard: true } },
