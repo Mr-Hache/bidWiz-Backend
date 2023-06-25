@@ -33,7 +33,7 @@ export class User {
   @Prop({ type: ExperienceSchema, default: {} })
   experience: Experience;
 
-  @Prop({ default: "" })
+  @Prop({ default: "https://www.intervinilo.com/images/stories/virtuemart/product/Bruja-003.jpg" })
   image: string;
 
   @Prop({ default: 5})
