@@ -162,6 +162,31 @@ export class UsersService {
     
         return topSellers;
     }
+
+    async getTopRatedWizards() {
+        const topRatedWizards = await this.userModel.aggregate([
+            {
+                $match: { isWizard: true, "experience.expJobs": { $gt: 0 } }
+            },
+            {
+                $sort: { reviews: -1 }
+            },
+            {
+                $project: {
+                name: 1,
+                _id: 1,
+                image: 1,
+                reviews: 1
+                }
+            },
+            {
+                $limit: 10
+            }
+            ]);
+        
+            return topRatedWizards;
+        }
+      
     
     
 }

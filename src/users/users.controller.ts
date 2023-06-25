@@ -70,4 +70,10 @@ async countAll(@Query('subjects') subjects: string[], @Query('languages') langua
         const topSellers = await this.usersService.getTopSellers();
         return topSellers;
     }
+
+    @Get('top-wizards')
+  async getTopRatedWizards() {
+    const wizards = await this.usersService.getTopRatedWizards();
+    return wizards;
+  }
 }
