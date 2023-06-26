@@ -8,7 +8,7 @@ async function bootstrap() {
     const app = await NestFactory.create(AppModule);
     console.log('Nest application created.');
 
-    app.enableCors()
+    app.enableCors({origin:'*'})
     app.useGlobalPipes(new ValidationPipe())
 
     console.log('Starting server...');
