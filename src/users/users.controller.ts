@@ -32,9 +32,10 @@ async countAll(@Query('subjects') subjects: string[], @Query('languages') langua
   }
 
   @Get("/emails")
-  async findAllEmails(): Promise<string[]> {
+  async findAllEmails(): Promise<{ email: string; isDisabled: boolean }[]> {
     return this.usersService.findAllEmails();
-}
+  }
+  
 
 
   @Patch(':_id/wizard')

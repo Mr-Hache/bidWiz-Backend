@@ -88,10 +88,11 @@ export class UsersService {
         return this.userModel.find({role: { $ne: 'admin' }}).exec();
     }
 
-    async findAllEmails(): Promise<string[]> {
-        const users = await this.userModel.find({role: { $ne: 'admin' }}, {email: 1, _id: 0}).exec();
-        return users.map(user => user.email);
+    async findAllEmails(): Promise<{ email: string; isDisabled: boolean }[]> {
+        const users = await this.userModel.find({role: { $ne: 'admin' }}, {email: 1, isDisabled: 1, _id: 0}).exec();
+        return users.map(user => ({ email: user.email, isDisabled: user.isDisabled }));
     }
+    
     
     async findOneWizard(_id: string): Promise<User> {
         const user = await this.userModel.findOne({ _id: _id, isDisabled: false, role: { $ne: 'admin' },
