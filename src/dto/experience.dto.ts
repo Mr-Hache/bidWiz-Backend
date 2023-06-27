@@ -1,10 +1,13 @@
-import { IsNotEmpty, IsString, IsNumber } from 'class-validator';
-
+import { IsNotEmpty, IsString, IsNumber, IsEnum } from 'class-validator';
+import { Title } from 'src/schemas/title.enum';
+import { Origin } from 'src/schemas/origin.enum';
 export class ExperienceDto {
     @IsString()
-    title: string;
+    @IsEnum(Title)
+    title: Title;
 
     @IsString()
-    origin: string;
+    @IsEnum(Origin)
+    origin: Origin;
 
 }
