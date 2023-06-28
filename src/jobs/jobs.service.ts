@@ -76,6 +76,15 @@ export class JobsService {
 
         const clientDaysMap = client.calendar.days;
         const workerDaysMap = worker.calendar.days;
+
+        const job = new this.jobModel({
+          ...jobData,
+          client: clientId,
+          worker: workerId,
+          subject,
+          language,
+          availability,
+        });
         
         // Mark time slots as booked
         availability.forEach(slot => {
@@ -93,6 +102,8 @@ export class JobsService {
         
               clientTimeSlotValue.isBooked = true;
               workerTimeSlotValue.isBooked = true;
+              clientTimeSlotValue.detailClass = job.description
+              workerTimeSlotValue.detailClass = job.description
             }
           }
         });
@@ -107,14 +118,7 @@ export class JobsService {
 
     
 
-        const job = new this.jobModel({
-          ...jobData,
-          client: clientId,
-          worker: workerId,
-          subject,
-          language,
-          availability,
-        });
+        
         
         job.availability = availability;
         job.numClasses = numClasses
