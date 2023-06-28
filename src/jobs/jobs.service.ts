@@ -14,6 +14,26 @@ mercadopago.configure({
   access_token: "TEST-6148664915482628-062215-38a98e32a8fa8c007c622d1a70f3ea0b-1404236451",
 });
 
+const weekDays = [
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday"
+]
+
+const hours = [
+  '09:00 - 09:50',
+  '10:00 - 10:50',
+  '11:00 - 11:50',
+  '12:00 - 12:50',
+  '14:00 - 14:50',
+  '15:00 - 15:50',
+  '16:00 - 16:50',
+  '17:00 - 17:50',
+]
+
+
 
 @Injectable()
 export class JobsService {
@@ -23,7 +43,7 @@ export class JobsService {
     ) {}
     
     async createJob(createJobDto: CreateJobDto): Promise<Job> {
-        const { clientId, workerId, subject, language, ...jobData } = createJobDto;
+        const { clientId, workerId, subject, language, availability, numClasses, ...jobData } = createJobDto;
 
         const worker = await this.userModel.findById(workerId).exec();
         if (!worker) {
@@ -38,18 +58,74 @@ export class JobsService {
         throw new Error('Worker does not have the specified language');
         }
 
-        const job = new this.jobModel({
-        ...jobData,
-        client: clientId,
-        worker: workerId,
-        subject,
-        language,
+        const client = await this.userModel.findById(clientId).exec();
+        if (!client) {
+          throw new Error('Client not found');
+        }
+
+        if (!client.calendar || !client.calendar.days) {
+          throw new Error('Client calendar days not defined');
+        }
+
+        if (!worker.calendar || !worker.calendar.days) {
+          throw new Error('Worker calendar days not defined');
+        }
+        if (availability.length !== numClasses) {
+          throw new Error('The number of classes does not match the provided availability');
+        }
+
+        const clientDaysMap = client.calendar.days;
+        const workerDaysMap = worker.calendar.days;
+        
+        // Mark time slots as booked
+        availability.forEach(slot => {
+          const clientDayValue = clientDaysMap.get(slot.day);
+          const workerDayValue = workerDaysMap.get(slot.day);
+        
+          if (clientDayValue && workerDayValue) {
+            const clientTimeSlotValue = clientDayValue.timeSlots.get(slot.hour) as any;
+            const workerTimeSlotValue = workerDayValue.timeSlots.get(slot.hour) as any;
+        
+            if (clientTimeSlotValue && workerTimeSlotValue) {
+              if (clientTimeSlotValue.isBooked || workerTimeSlotValue.isBooked) {
+                throw new Error('One or more time slots are already booked');
+              }
+        
+              clientTimeSlotValue.isBooked = true;
+              workerTimeSlotValue.isBooked = true;
+            }
+          }
         });
+        
+        
+
+      
+    
+      
+        await client.save();
+        await worker.save();
+
+    
+
+        const job = new this.jobModel({
+          ...jobData,
+          client: clientId,
+          worker: workerId,
+          subject,
+          language,
+          availability,
+        });
+        
+        job.availability = availability;
+        job.numClasses = numClasses
+        
+    
+        
 
         let preference = {
           items: [
             {
-              title: job.subject, 
+              title: job.description, 
               unit_price: job.price, 
               quantity: job.numClasses, 
               currency_id: "USD"
