@@ -40,6 +40,10 @@ export class Job {
 
   @Prop()
   result: string;
+
+  @Prop([{ day: String, hour: String }])
+  availability: { day: string, hour: string }[];
+
 }
 
 export const JobSchema = SchemaFactory.createForClass(Job);
