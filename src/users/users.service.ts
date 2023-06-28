@@ -187,7 +187,14 @@ export class UsersService {
         
             return topRatedWizards;
         }
-      
+
+    async getCalendar(_id: string): Promise<User> {
+        const user = await this.userModel.findOne({ _id: _id, isDisabled: false, role: { $ne: 'admin' }}, { calendar: 1 }).exec();
+        if (!user) {
+            throw new NotFoundException(`User with id ${_id} not found`);
+        }
+        return user;
+    }
     
     
 }

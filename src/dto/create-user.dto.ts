@@ -4,6 +4,24 @@ import { Subject } from 'src/schemas/subject.enum';
 import { Language } from 'src/schemas/language.enum';
 import { ExperienceDto } from './experience.dto';
 
+const timeSlots = {
+    '09:00 - 09:50': { isBooked: false },
+    '10:00 - 10:50': { isBooked: false },
+    '11:00 - 11:50': { isBooked: false },
+    '12:00 - 12:50': { isBooked: false },
+    '14:00 - 14:50': { isBooked: false },
+    '15:00 - 15:50': { isBooked: false },
+    '16:00 - 16:50': { isBooked: false },
+    '17:00 - 17:50': { isBooked: false },
+    };
+
+    const days = {
+        Monday: { timeSlots },
+        Tuesday: { timeSlots },
+        Wednesday: { timeSlots },
+        Thursday: { timeSlots },
+        Friday: { timeSlots },
+      };
 export class CreateUserDto{
 
     @IsString()
@@ -41,4 +59,7 @@ export class CreateUserDto{
     @IsString()
     @ValidateIf(o => o.isWizard, { groups: ['wizard'] })
     image: string
+
+    @IsObject()
+    calendar = { days };
 }

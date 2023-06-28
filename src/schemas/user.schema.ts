@@ -1,9 +1,10 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Types } from 'mongoose';
 import { Language } from './language.enum';
 import { Subject } from './subject.enum';
 import { Role } from './role.enum';
 import { Experience, ExperienceSchema } from './experience.schema';
+import { Calendar, CalendarSchema } from './calendar.schema';
 
 export type UserDocument = User & Document;
 
@@ -56,6 +57,9 @@ export class User {
 
   @Prop({ type: [String], enum: Role, default: ["user"] }) 
   role: string;
+
+  @Prop({ type: Calendar })
+  calendar: Calendar;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, IsEnum, IsString, IsObject } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsEnum, IsString, IsArray } from 'class-validator';
 import { JobStatus } from 'src/schemas/jobStatus.enum';
 import { Language } from 'src/schemas/language.enum';
 import { Subject } from 'src/schemas/subject.enum';
@@ -39,5 +39,9 @@ export class CreateJobDto {
     @IsNotEmpty()
     @IsString()
     result: string;
+
+    @IsNotEmpty()
+    @IsArray()
+    availability: { day: string, hour: string }[];
 
 }

@@ -77,4 +77,10 @@ async countAll(@Query('subjects') subjects: string[], @Query('languages') langua
     const wizards = await this.usersService.getTopRatedWizards();
     return wizards;
   }
+
+  @Get('calendar/:_id')
+  async getCalendar(@Param('_id') _id: string): Promise<User> {
+    const userCalendar = await this.usersService.getCalendar(_id);
+    return userCalendar;
+  }
 }
