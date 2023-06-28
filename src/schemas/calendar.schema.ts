@@ -7,6 +7,9 @@ export type CalendarDocument = Calendar & Document;
 export class TimeSlot {
   @Prop({ default: false })
   isBooked: boolean;
+
+  @Prop({default: ""})
+  detailClass: string;
 }
 
 export const TimeSlotSchema = SchemaFactory.createForClass(TimeSlot);
