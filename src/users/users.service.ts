@@ -96,7 +96,7 @@ export class UsersService {
     
     async findOneWizard(_id: string): Promise<User> {
         const user = await this.userModel.findOne({ _id: _id, isDisabled: false, role: { $ne: 'admin' },
-        isWizard: true }, { email: 1 }).exec();
+        isWizard: true }).exec();
         if (!user) {
             throw new NotFoundException(`User with id ${_id} not found`);
         }
@@ -104,7 +104,7 @@ export class UsersService {
     }
 
     async findOneUserUid(uidFireBase: string): Promise<User> {
-        const user = await this.userModel.findOne({ uidFireBase: uidFireBase, isDisabled: false }, { email: 1 }).exec();
+        const user = await this.userModel.findOne({ uidFireBase: uidFireBase, isDisabled: false }).exec();
         if (!user) {
             throw new NotFoundException(`User with uid ${uidFireBase} not found`);
         }
