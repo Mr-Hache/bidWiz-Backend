@@ -136,8 +136,8 @@ export class JobsService {
             },
           ],
           back_urls: {
-            success: "http://localhost:3000",
-            failure: "http://localhost:3000",
+            success: "https://bid-wiz-frontend.vercel.app/",
+            failure: "https://bid-wiz-frontend.vercel.app/",
             pending: "",
           },
           auto_return: "approved",
