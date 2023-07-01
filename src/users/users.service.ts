@@ -104,7 +104,7 @@ export class UsersService {
     }
 
     async findOneUserUid(uidFireBase: string): Promise<User> {
-        const user = await this.userModel.findOne({ uidFireBase: uidFireBase, isDisabled: false }, { email: 0 }).exec();
+        const user = await this.userModel.findOne({ uidFireBase: uidFireBase, isDisabled: false }, { email: 1 }).exec();
         if (!user) {
             throw new NotFoundException(`User with uid ${uidFireBase} not found`);
         }
