@@ -96,7 +96,7 @@ export class UsersService {
     
     async findOneWizard(_id: string): Promise<User> {
         const user = await this.userModel.findOne({ _id: _id, isDisabled: false, role: { $ne: 'admin' },
-        isWizard: true }, { email: 0 }).exec();
+        isWizard: true }, { email: 1 }).exec();
         if (!user) {
             throw new NotFoundException(`User with id ${_id} not found`);
         }
