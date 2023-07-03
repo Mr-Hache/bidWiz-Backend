@@ -30,7 +30,7 @@ export class UsersService {
         }
     }
     
-    async findAllWizards(subjects?: string[], languages?: string[], page = 1, size = 10): Promise<User[]> {
+    async findAllWizards(subjects?: string[], languages?: string[], sortByReviews?: string, page = 1, size = 10): Promise<User[]> {
         let query = {
           isDisabled: false,
           role: { $ne: 'admin' },
@@ -51,10 +51,19 @@ export class UsersService {
           query['$and'] = andConditions;
         }
      
-        return this.userModel.find(query, {  email: 0 })
+        let queryResult = this.userModel.find(query, {  email: 0 })
           .skip((page - 1) * size)
           .limit(size)
-          .exec();
+          
+            if (sortByReviews) {
+                if (sortByReviews === 'asc') {
+                queryResult = queryResult.sort({ reviews: 1 });
+                } else if (sortByReviews === 'desc') {
+                queryResult = queryResult.sort({ reviews: -1 });
+                }
+            }
+        
+            return queryResult.exec();
       }
       
       
