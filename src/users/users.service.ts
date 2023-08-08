@@ -129,13 +129,7 @@ export class UsersService {
         }
 
         if (!user.isWizard && updateUserWizardDto.isWizard === true) {
-            if (!updateUserWizardDto.languages || !updateUserWizardDto.subjects || !updateUserWizardDto.experience || !updateUserWizardDto.image) {
-                throw new BadRequestException('You must provide languages, subjects, experiences, and image when changing isWizard to true');
-            }
-        }
-
-        if (!user.isWizard && updateUserWizardDto.isWizard === true) {
-            if (!updateUserWizardDto.languages || !updateUserWizardDto.subjects || !updateUserWizardDto.experience || !updateUserWizardDto.image) {
+            if (!updateUserWizardDto.languages || !updateUserWizardDto.subjects || !updateUserWizardDto.experience) {
                 throw new BadRequestException('You must provide languages, subjects, experiences, and image when changing isWizard to true');
             }
             if (!updateUserWizardDto.experience.title || !updateUserWizardDto.experience.origin) {

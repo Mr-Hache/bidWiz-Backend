@@ -1,7 +1,7 @@
 import { IsString, IsBoolean, IsEnum, IsArray, ValidateNested, IsOptional, IsObject, IsNumber } from 'class-validator';
 import { Type } from 'class-transformer';
-import { Subject } from 'src/schemas/subject.enum';
-import { Language } from 'src/schemas/language.enum';
+import { Subject } from '../schemas/subject.enum';
+import { Language } from '../schemas/language.enum';
 import { ExperienceDto } from './experience.dto';
 
 export class UpdateUserWizardDto{

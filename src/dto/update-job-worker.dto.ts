@@ -1,5 +1,5 @@
 import { IsNotEmpty, IsEnum, IsString } from 'class-validator';
-import { JobStatus } from 'src/schemas/jobStatus.enum';
+import { JobStatus } from '../schemas/jobStatus.enum';
 import { Types } from 'mongoose';
 
 export class UpdateJobWorkerDto{
