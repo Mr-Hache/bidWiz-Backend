@@ -92,8 +92,7 @@ dist
 # vuepress build output
 .vuepress/dist
 
-# Serverless directories
-.serverless/
+
 
 # FuseBox cache
 .fusebox/
@@ -104,8 +103,6 @@ dist
 # TernJS port file
 .tern-port
 
-# package-lock.json
-package-lock.json
 
 # compiled output
 /dist

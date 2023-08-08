@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { CreateJobDto } from 'src/dto/create-job.dto';
-import { Job, JobDocument } from 'src/schemas/jobs.schema';
-import { User, UserDocument } from 'src/schemas/user.schema';
-import { UpdateJobWorkerDto } from 'src/dto/update-job-worker.dto';
+import { CreateJobDto } from '../dto/create-job.dto';
+import { Job, JobDocument } from '../schemas/jobs.schema';
+import { User, UserDocument } from '../schemas/user.schema';
+import { UpdateJobWorkerDto } from '../dto/update-job-worker.dto';
 import { Types } from 'mongoose';
-import { UpdateJobReviewDto } from 'src/dto/update-job-client.dto';
+import { UpdateJobReviewDto } from '../dto/update-job-client.dto';
 
 const mercadopago = require("mercadopago");
 
